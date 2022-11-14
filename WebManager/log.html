@@ -11,6 +11,12 @@
 			$("#back").click(function(){
 				window.location.href = 'index.html'
 			});
+			  $("#refresh").click(function(){
+				window.location.href = 'log.html?refresh'
+			});
+			  $("#clear").click(function(){
+				window.location.href = 'log.html?clear'
+			});
 		  });
 		</script>
 </head>
@@ -26,6 +32,8 @@
       <textarea cols="1" rows="10" readonly=true name="textarea" id="textarea">{1}</textarea>
     </div>
   <a href="#" data-role="button" id="back" data-icon="back">Back</a>
+  <a href="#" data-role="button" id="clear" data-icon="minus">Clear</a>
+	<a href="#" data-role="button" id="refresh" data-icon="refresh">Refresh</a>
 	
 </div>
 </body>
