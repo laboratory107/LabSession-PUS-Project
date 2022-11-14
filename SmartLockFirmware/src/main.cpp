@@ -21,6 +21,7 @@ String message = "";
 
 void WriteToLog(String logEntry)
 {
+  //TODO: append na vrh
   file = SD.open("/log.txt", FILE_WRITE);
   file.seek(file.size(), SeekMode::SeekEnd);
   file.println(logEntry);
