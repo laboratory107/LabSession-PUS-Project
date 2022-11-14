@@ -3,14 +3,12 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <mdns.h>
+#include <ESPmDNS.h>
 
 AsyncWebServer server(80);
 
 const char *ssid = "TheLabIOT";
 const char *password = "Yaay!ICanTalkNow";
-
-const char *PARAM_MESSAGE = "message";
 
 void notFound(AsyncWebServerRequest *request)
 {
@@ -40,13 +38,15 @@ void StartServer()
     Serial.printf("WiFi Failed!\n");
     delay(1000);
   }
-  mdns_init();
-  mdns_hostname_set("smartlock");
-  // mdns_service_add(NULL, "_http", "_tcp", 80, NULL, 0);
-  mdns_instance_name_set("Best lock ever!");
-
+  MDNS.begin("smartlock");
+  //TODO: http:// mora biti
+  //TODO: metode za wifi setup i SD begin u Setup.
+  //
+  
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
+  
+  
   // enumerate html files
   File folder = SD.open("/WebManager", FILE_READ);
   folder.rewindDirectory();
@@ -59,13 +59,18 @@ void StartServer()
       // no more files
       break;
     }
+   
     WriteToLog("new file " + String(entry.name()));
-    on = "";
+    on = "/";
     on.concat(entry.name());
-    on = on.substring(on.lastIndexOf("/"));
-    // on = on.substring(0, on.indexOf("."));
+    //on = on.substring(on.lastIndexOf("/"));
+    //WriteToLog("new file " + String(entry.name()));
     // https://wokwi.com/projects/new/esp32
-
+ /*   if(on == "")
+    {
+      WriteToLog("continue");
+      continue;
+    }*/
     WriteToLog("file registration: " + on);
 
     server.on(on.c_str(), HTTP_GET, [&](AsyncWebServerRequest *request)
@@ -75,6 +80,7 @@ void StartServer()
 
                 if(request->url().equals("/log.html"))
                 {
+                  //TODO: clear log kao query string param
                   String log = SD.open("/log.txt").readString();
                   content.replace("{1}", log);
                 }
@@ -87,11 +93,6 @@ void StartServer()
             {
               WriteToLog("new request ");
               request->send(200, "text/html", SD.open("/WebManager/index.html").readString()); });
-
-  server.on("/log.html", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-              WriteToLog("new request 3");
-              request->send(200, "text/html", SD.open("/WebManager/log.html").readString()); });
 
   /*
     server.on("/post", HTTP_POST, [](AsyncWebServerRequest *request)
