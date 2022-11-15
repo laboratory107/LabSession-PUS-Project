@@ -13,7 +13,13 @@
     });
 	   $("#save").click(function(){
 		   var keys = $('textarea#keys').val();
-    		window.location.href  = 'save.html?keys=' + keys;	
+		   var queryurl ="?";
+		   const keyArray = keys.split(/\r?\n/g);
+		   for (const element of keyArray) {
+			   queryurl+= element + "&";
+		   }
+		   queryurl= queryurl.slice(0,-1);
+    		window.location.href  = 'save.html' + queryurl;
     });
   });
 </script>
@@ -25,7 +31,7 @@
     <h1>Smart lock - keys</h1>
   </div>
     <div data-role="fieldcontain">
-      <label for="textarea">Keys in the system:</label>
+      <label for="textarea" style="margin-left: 5px"><strong>Keys in the system:</strong></label>
       <textarea cols="1" rows="40" name="keys" id="keys"></textarea>
     </div>
 	<a href="#" data-role="button" id="back" data-icon="back">Back</a>

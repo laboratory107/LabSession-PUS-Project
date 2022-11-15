@@ -1,24 +1,23 @@
+
 #include "SDLogger.h"
 
-void SDLogger::Begin(String FileName)
+bool SDLogger::Begin(String FileName)
 {
+    isReady = false;
     if (!SD.begin())
     {
         Serial.println("begin failed");
-        return;
+        return isReady;
     }
     this->fileName = FileName;
-   // fileWrite = SD.open(this->fileName, FILE_WRITE);
-    //fileRead = SD.open(this->fileName, FILE_READ);
-    //Serial.println("log file: " + String(fileWrite.name()));
+    isReady = true;
+    return isReady;
 }
 void SDLogger::WriteLine(String logEntry, bool saveToCard)
 {
     Serial.println("Log: " + logEntry);
-    if (saveToCard)
+    if (saveToCard && isReady)
     {
-        //String saveMe = "";
-        //saveMe.concat(logEntry);
         logEntry.concat("\n");
         logEntry.concat(ReadAll());
 
@@ -30,6 +29,11 @@ void SDLogger::WriteLine(String logEntry, bool saveToCard)
 String SDLogger::ReadAll()
 {
     String returnMe = "";
+    if(!isReady)
+    {
+        return returnMe;
+    }
+    
     fileRead = SD.open(this->fileName, FILE_READ);
     returnMe.concat(fileRead.readString());
     fileRead.close();
@@ -37,6 +41,11 @@ String SDLogger::ReadAll()
 }
 void SDLogger::Clear()
 {
+    if(!isReady)
+    {
+        return;
+    }
+    
     fileWrite = SD.open(this->fileName, FILE_WRITE);
     fileWrite.println("");
     fileWrite.close();

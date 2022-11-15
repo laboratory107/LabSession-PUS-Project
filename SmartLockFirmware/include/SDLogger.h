@@ -1,3 +1,4 @@
+#pragma once
 #include <SD.h>
 
 class SDLogger
@@ -6,11 +7,13 @@ private:
     String fileName;
     File fileWrite;
     File fileRead;
+    bool isReady;
 public:
-    /// @brief 
-    /// @param FileName  including path, root is /
+
     SDLogger();
-    void Begin(String FileName);
+    /// @brief
+    /// @param FileName  including path, root is /
+    bool Begin(String FileName);
     ~SDLogger();
     void WriteLine(String logEntry, bool saveToCard = true);
     String ReadAll();
