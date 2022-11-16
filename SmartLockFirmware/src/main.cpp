@@ -1,14 +1,11 @@
 #include <SPI.h>
 #include <SDLogger.h>
 #include <WebServer.h>
-#include "TouchControl.h"
+#include <TouchControl.h>
 
 SDLogger sdLog;
 WebServer server;
 TouchControl touchControl;
-
-long currentTime;
-String loopMessage = "";
 
 void setup()
 {
@@ -22,29 +19,20 @@ void setup()
   touchControl.addToDictionary('P', 100, 1000, false);
   touchControl.registerPattern("SPSPL");
 
-  if (!sdLog.Begin("/log.txt"))
+  if (!sdLog.begin("/log.txt"))
   {
     return;
   }
 
-  server.Begin("smartlock", "/WebManager", "TheLabIOT", "Yaay!ICanTalkNow", &sdLog);
+  server.begin("smartlock", "/WebManager", "TheLabIOT", "Yaay!ICanTalkNow", &sdLog);
   server.Start();
 
   sdLog.WriteLine("Setup complete");
 }
 void loop()
 {
-	bool patternFound = touchControl.checkPattern();
-
-  if (patternFound){
+	if (touchControl.checkPattern()){
     Serial.printf("Successful pattern %s \n", touchControl.getLastPattern());
-    //Serial.println("unlocked");
+    sdLog.WriteLine("Pattern found - unlocked");
   }
-  
-  currentTime = millis();
-  loopMessage = String(currentTime);
-  loopMessage.concat(" loop");
-
-  sdLog.WriteLine(loopMessage, false);
-  delay(10000);
 }

@@ -5,7 +5,7 @@ WebServer::WebServer()
     server = new AsyncWebServer(80);
 }
 
-bool WebServer::Begin(String ServerName, String RootPath, String WiFiSSID, String WiFiPassword, SDLogger *logger)
+bool WebServer::begin(String ServerName, String RootPath, String WiFiSSID, String WiFiPassword, SDLogger *logger)
 {
     bool returnMe = false;
     sdLog = logger;
@@ -97,8 +97,6 @@ bool WebServer::Begin(String ServerName, String RootPath, String WiFiSSID, Strin
                 File fileKeys = SD.open("/keys.txt", FILE_WRITE);
                 fileKeys.print(saveMe);
                 fileKeys.close();
-                  //String logContent = sdLog->ReadAll();
-                 // content.replace("{1}", logContent);
                 }
                 request->send(200, "text/html",  content ); });
         entry.close();

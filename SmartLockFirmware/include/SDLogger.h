@@ -13,7 +13,7 @@ public:
     SDLogger();
     /// @brief
     /// @param FileName  including path, root is /
-    bool Begin(String FileName);
+    bool begin(String FileName);
     ~SDLogger();
     void WriteLine(String logEntry, bool saveToCard = true);
     String ReadAll();

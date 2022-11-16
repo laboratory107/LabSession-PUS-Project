@@ -25,9 +25,6 @@ bool TouchControl::checkPattern()
         elapsed = currentTime - lastRegisteredTouchTime;
         if (elapsed > touchDelay)
         {
-            // if (debugEnabled)
-            //    debugStream->println("Touch sensor touched");
-
             lastRegisteredTouchTime = currentTime;
 
             if (firstTouchTime == 0)
@@ -53,7 +50,6 @@ bool TouchControl::checkPattern()
         if (currentTime - anyTouchTime > touchDelay && touchCounter > 0) // If there hasn't been a touch for a good moment
         {
             // lastTouchPattern = lastTouchPattern + getTouchPattern(touchCounter);
-
             touchLength = currentTime - firstTouchTime;
             debugStream->printf("Touch length: %d \n", touchLength);
             firstTouchTime = 0;
@@ -190,22 +186,3 @@ void TouchControl::registerPattern(String pattern)
 
     patterns.push_back(pattern);
 }
-
-/* OLD */
-char TouchControl::getTouchPattern(int touchCounter)
-{
-    return touchCounter >= 5 ? 'L' : 'S';
-}
-
-/*debugStream->println(lastTouchPattern.c_str());
-if (lastTouchPattern.length() >= 3)
-{
-
-    if (patterns.count(lastTouchPattern) != 0) {
-        pattern = patterns[lastTouchPattern];
-        return true;
-    }
-
-    lastCommand = lastTouchPattern;
-    lastTouchPattern = "";
-}*/

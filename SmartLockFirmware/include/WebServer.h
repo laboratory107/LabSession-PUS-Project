@@ -19,7 +19,7 @@ public:
     WebServer();
     /// @brief
     /// @param ServerName  including path, root is /
-    bool Begin(String ServerName, String RootPath, String WiFiSSID, String WiFiPassword, SDLogger *logger);
+    bool begin(String ServerName, String RootPath, String WiFiSSID, String WiFiPassword, SDLogger *logger);
     bool Start();
     bool Stop();
     ~WebServer();

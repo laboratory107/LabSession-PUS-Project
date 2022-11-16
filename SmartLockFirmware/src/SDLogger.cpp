@@ -1,7 +1,7 @@
 
 #include "SDLogger.h"
 
-bool SDLogger::Begin(String FileName)
+bool SDLogger::begin(String FileName)
 {
     isReady = false;
     if (!SD.begin())

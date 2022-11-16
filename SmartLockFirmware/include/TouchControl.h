@@ -31,11 +31,6 @@ private:
     long elapsed = 0;
     int touchCounter = 0;
 
-    /*std::map<std::string, std::string> patterns = {
-        { "LSL", "Unlock the door" },
-        { "SSL", "Lock the door" }
-    };*/
-
     String lastTouchPattern = "";
     String lastCommand = "";
 
