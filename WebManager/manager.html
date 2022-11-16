@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Smart lock - Manager</title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script>
+  $(document).ready(function(){
+    $("#back").click(function(){
+    	window.location.href  = 'index.html'
+    });
+	   $("#save").click(function(){
+		   var keys = $('textarea#keys').val();
+		   var queryurl ="?";
+		   const keyArray = keys.split(/\r?\n/g);
+		   for (const element of keyArray) {
+			   queryurl+= element + "&";
+		   }
+		   queryurl= queryurl.slice(0,-1);
+    		window.location.href  = 'save.html' + queryurl;
+    });
+  });
+</script>
+</head>
+
+<body>
+<div data-role="page" id="page">
+  <div data-role="header">
+    <h1>Smart lock - keys</h1>
+  </div>
+    <div data-role="fieldcontain">
+      <label for="textarea" style="margin-left: 5px"><strong>Keys in the system:</strong></label>
+      <textarea cols="1" rows="40" name="keys" id="keys"></textarea>
+    </div>
+	<a href="#" data-role="button" id="back" data-icon="back">Back</a>
+	<a href="#" data-role="button" id="save" data-icon="check">Save</a>
+	
+</div>
+</body>
+</html>
