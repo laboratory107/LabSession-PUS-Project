@@ -15,7 +15,7 @@ public:
     /// @param FileName  including path, root is /
     bool begin(String FileName);
     ~SDLogger();
-    void WriteLine(String logEntry, bool saveToCard = true);
-    String ReadAll();
-    void Clear();
+    void writeLine(String logEntry, bool saveToCard = true);
+    String readAll();
+    void clear();
 };

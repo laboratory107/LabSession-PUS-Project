@@ -24,15 +24,15 @@ void setup()
     return;
   }
 
-  server.begin("smartlock", "/WebManager", "TheLabIOT", "Yaay!ICanTalkNow", &sdLog);
-  server.Start();
+  server.begin("smartlock", "/WebManager", "LAB5-IOT","noKotu2i0u", &sdLog);
+  server.start();
 
-  sdLog.WriteLine("Setup complete");
+  sdLog.writeLine("Setup complete");
 }
 void loop()
 {
 	if (touchControl.checkPattern()){
     Serial.printf("Successful pattern %s \n", touchControl.getLastPattern());
-    sdLog.WriteLine("Pattern found - unlocked");
+    sdLog.writeLine("Pattern found - unlocked");
   }
 }

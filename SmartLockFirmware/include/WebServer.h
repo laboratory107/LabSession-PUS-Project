@@ -20,7 +20,7 @@ public:
     /// @brief
     /// @param ServerName  including path, root is /
     bool begin(String ServerName, String RootPath, String WiFiSSID, String WiFiPassword, SDLogger *logger);
-    bool Start();
-    bool Stop();
+    bool start();
+    bool stop();
     ~WebServer();
 };

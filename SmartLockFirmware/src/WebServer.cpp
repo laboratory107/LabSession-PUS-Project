@@ -14,25 +14,25 @@ bool WebServer::begin(String ServerName, String RootPath, String WiFiSSID, Strin
 
     WiFi.mode(WIFI_STA);
     WiFi.begin(WiFiSSID.c_str(), WiFiPassword.c_str());
-    sdLog->WriteLine("Connecting to WiFi...");
+    sdLog->writeLine("Connecting to WiFi...");
     while (WiFi.waitForConnectResult() != WL_CONNECTED)
     {
-        sdLog->WriteLine(".", false);
+        sdLog->writeLine(".", false);
         delay(600);
     }
-    sdLog->WriteLine("Wifi connected, IP Address: " + WiFi.localIP().toString());
+    sdLog->writeLine("Wifi connected, IP Address: " + WiFi.localIP().toString());
 
     WiFi.setHostname("smartlock");
     if (!MDNS.begin("smartlock"))
     {
-        sdLog->WriteLine("MDNS error");
+        sdLog->writeLine("MDNS error");
         while (1)
         {
             delay(1000);
         }
         // TODO: http:// mora biti
     }
-    sdLog->WriteLine("MDNS name: " + serverName);
+    sdLog->writeLine("MDNS name: " + serverName);
 
     // enumerate html files
     File folder = SD.open(this->path, FILE_READ);
@@ -47,37 +47,32 @@ bool WebServer::begin(String ServerName, String RootPath, String WiFiSSID, Strin
             break;
         }
 
-        sdLog->WriteLine("new file " + String(entry.name()));
+        sdLog->writeLine("new file " + String(entry.name()));
         on = "/";
         on.concat(entry.name());
         on = on.substring(on.lastIndexOf("/"));
         // https://wokwi.com/projects/new/esp32
 
-        sdLog->WriteLine("file registration: " + on);
+        sdLog->writeLine("file registration: " + on);
 
         server->on(on.c_str(), HTTP_GET, [&](AsyncWebServerRequest *request)
                    {
-                sdLog->WriteLine("new request "+request->url());
+                sdLog->writeLine("new request "+request->url());
                 String content = SD.open("/WebManager"+ request->url() ).readString();
 
                 if(request->url().equals("/log.html"))
                 {
                   if(request->hasArg("clear"))
                   {
-                    sdLog->WriteLine("log clear requested", false);
-                    sdLog->Clear();
+                    sdLog->writeLine("log clear requested", false);
+                    sdLog->clear();
                   }
                   String logContent = "id=\"log\">";
-                  logContent.concat(sdLog->ReadAll());
+                  logContent.concat(sdLog->readAll());
                   content.replace("id=\"log\">", logContent);
                 }
                 if(request->url().equals("/manager.html"))
                 {
-                  if(request->hasArg("clear"))
-                  {
-                    sdLog->WriteLine("log clear requested", false);
-                    sdLog->Clear();
-                  }
                   File fileKeys = SD.open("/keys.txt", FILE_READ);
                   String keyContent = "id=\"keys\">";
                   keyContent.concat( fileKeys.readString());
@@ -104,29 +99,29 @@ bool WebServer::begin(String ServerName, String RootPath, String WiFiSSID, Strin
 
     server->on("/", HTTP_GET, [&](AsyncWebServerRequest *request)
                {
-                sdLog->WriteLine("new request ");
+                sdLog->writeLine("new request ");
                 request->send(200, "text/html", SD.open("/WebManager/index.html").readString()); });
 
     server->onNotFound([&](AsyncWebServerRequest *request)
                        {
                     request->send(404, "text/plain", "Not found");
-                    sdLog->WriteLine("404 request "); });
+                    sdLog->writeLine("404 request "); });
 
-    sdLog->WriteLine("Server setup done");
+    sdLog->writeLine("Server setup done");
     return returnMe;
 }
-bool WebServer::Start()
+bool WebServer::start()
 {
     bool returnMe = false;
     server->begin();
-    sdLog->WriteLine("Server started");
+    sdLog->writeLine("Server started");
     return returnMe;
 }
-bool WebServer::Stop()
+bool WebServer::stop()
 {
     bool returnMe = false;
     server->end();
-    sdLog->WriteLine("Server stopped");
+    sdLog->writeLine("Server stopped");
     return returnMe;
 }
 WebServer::~WebServer()
