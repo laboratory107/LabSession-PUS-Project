@@ -1,0 +1,14 @@
+new request /save.html
+new request /manager.html
+new request /index.html
+new request /log.html
+new request /index.html
+new request /manager.html
+new request /manager.html
+new request /manager.html
+new request /save.html
+new request /manager.html
+new request /index.html
+new request /log.html
+new request /log.html
+
