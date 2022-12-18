@@ -20,7 +20,8 @@ class TouchControl
 private:
     int touchPin = T0;
 
-    const uint8_t threshold = 20;
+    //const uint8_t threshold = 20;
+    const uint8_t threshold = 50;
 
     const long touchDelay = 200;
 

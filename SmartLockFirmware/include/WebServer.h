@@ -6,7 +6,6 @@
 
 #include <SDLogger.h>
 
-
 class WebServer
 {
 private:

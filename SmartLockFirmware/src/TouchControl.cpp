@@ -1,4 +1,7 @@
 #include "TouchControl.h"
+#include "oled.h"
+
+extern OLED *oled;
 
 bool touched = false;
 void IRAM_ATTR TouchControl::touchInterrupt()
@@ -125,14 +128,21 @@ bool TouchControl::checkCurrentPatternForDuration(int duration, bool state)
     {
         lastTouchPattern += pattern.label;
         debugStream->printf("Current pattern: %s \n", lastTouchPattern);
+        oled->drawPattern("Current pattern:",lastTouchPattern);
     }
 
     if (!checkIsPartialPatternValid(lastTouchPattern)) // If the current partial pattern is not a part of any patterns in the list, reset the current pattern
     {
         if (debugEnabled)
             debugStream->printf("Touch pattern interrupted, last pattern: %s \n", lastTouchPattern);
-        lastTouchPattern = "";
-
+        oled->drawPattern("Int - last pattern:",lastTouchPattern);
+        if(lastTouchPattern.length()>8)
+        {
+            oled->drawAccess(false);
+            delay(1000);
+            lastTouchPattern = "";
+            lastRegisteredTouchTime = currentTime;
+        }
         return false;
     }
 
