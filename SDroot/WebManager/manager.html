@@ -16,7 +16,7 @@
 		   var queryurl ="?";
 		   const keyArray = keys.split(/\r?\n/g);
 		   for (const element of keyArray) {
-			   if(element.length == 42)
+			   if(element.length != 0)
 			   {
 			   	queryurl+= element + "&";
 			   }
