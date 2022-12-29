@@ -16,7 +16,10 @@
 		   var queryurl ="?";
 		   const keyArray = keys.split(/\r?\n/g);
 		   for (const element of keyArray) {
-			   queryurl+= element + "&";
+			   if(element.length == 42)
+			   {
+			   	queryurl+= element + "&";
+			   }
 		   }
 		   queryurl= queryurl.slice(0,-1);
     		window.location.href  = 'save.html' + queryurl;
